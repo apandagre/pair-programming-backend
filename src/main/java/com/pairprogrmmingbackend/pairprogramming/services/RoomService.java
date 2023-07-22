@@ -34,6 +34,10 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
+    public void updateCode(String roomName, String code) {
+        roomRepository.updateCode(roomName, code);
+    }
+
     public Optional<Room> getRoom(String name) {
         return roomRepository.findByName(name);
     }

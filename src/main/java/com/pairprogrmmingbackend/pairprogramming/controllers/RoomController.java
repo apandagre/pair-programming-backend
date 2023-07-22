@@ -26,20 +26,18 @@ public class RoomController {
     private final RoomService roomService;
     private final RoomMapper roomMapper;
 
-//    works, but the owner is null..
-//    @PostMapping
-//    public ResponseEntity<RoomDto> createRoom(@RequestBody RoomCreationRequest roomCreationRequest, @AuthenticationPrincipal User currentUser) {
-//        System.out.println("[roomController] creating a room with user " + currentUser.toString());
-//        Room room = roomService.createRoom(roomCreationRequest.getName(), roomCreationRequest.getLanguage(), currentUser);
-//        return ResponseEntity.ok(roomMapper.toRoomDto(room));
-//    }
-
     @PostMapping
     public ResponseEntity<RoomDto> createRoom(@RequestBody RoomCreationRequest roomCreationRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("[roomController] creating a new room with user ");
         Room room = roomService.createRoom(roomCreationRequest.getName(), roomCreationRequest.getLanguage(), (User) authentication.getPrincipal());
         return ResponseEntity.ok(roomMapper.toRoomDto(room));
+    }
+
+    @PatchMapping("/save/{roomName}")
+    public void saveCode(@PathVariable String roomName, @RequestBody String code) {
+        System.out.println("received info " + roomName + " " + code);
+        roomService.updateCode(roomName, code);
     }
 
     @GetMapping("/{roomName}")
