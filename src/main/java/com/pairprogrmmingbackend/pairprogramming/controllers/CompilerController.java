@@ -19,6 +19,7 @@ public class CompilerController {
     @PostMapping("/compile")
     public ResponseEntity<String> compileCOde(@RequestBody String body) {
         String response = "";
+        System.out.println("[compilerController] compiling..");
 
         // Replace this RapidAPI Key with the actual key you obtained from RapidAPI
         String rapidApiKey = "0ca1f29d51mshb986e0c32e43c2fp154775jsn238ffb60bb8b";

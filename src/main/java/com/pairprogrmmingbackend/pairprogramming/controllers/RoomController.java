@@ -35,16 +35,18 @@ public class RoomController {
     }
 
     @PatchMapping("/save/{roomName}")
-    public void saveCode(@PathVariable String roomName, @RequestBody String code) {
+    public ResponseEntity<String> saveCode(@PathVariable String roomName, @RequestBody String code) {
         System.out.println("received info " + roomName + " " + code);
         roomService.updateCode(roomName, code);
+        return ResponseEntity.ok("OK");
     }
 
     @GetMapping("/{roomName}")
-    public ResponseEntity<RoomDto> getRoom(@PathVariable String roomName) {
+    public ResponseEntity<Room> getRoom(@PathVariable String roomName) {
         System.out.println("[getRoom] " + roomName);
         Optional<Room> room = roomService.getRoom(roomName);
         if(room.isEmpty()) throw  new AppException("Room does not exist", HttpStatus.NOT_FOUND);
-        return ResponseEntity.ok(roomMapper.toRoomDto(room.get()));
+        System.out.println("[roomController] " + room.get());
+        return ResponseEntity.ok(room.get());
     }
 }

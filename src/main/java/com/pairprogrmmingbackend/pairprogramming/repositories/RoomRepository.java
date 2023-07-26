@@ -18,10 +18,11 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
         Optional<Room> roomOptional = this.findByName(roomName);
         if(roomOptional.isPresent()) {
             Room room = roomOptional.get();
+            System.out.println("setting code " + code);
             room.setCode(code);
             this.save(room);
         } else {
-            throw new AppException("Room does not exists", HttpStatus.NOT_FOUND);
+            throw new AppException("Room does not exist.", HttpStatus.NOT_FOUND);
         }
 
     }
