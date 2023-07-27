@@ -18,5 +18,7 @@ public class RoomDto {
     private UserDto owner;
 
     private String code;
+
+    private Integer members;
 }
 

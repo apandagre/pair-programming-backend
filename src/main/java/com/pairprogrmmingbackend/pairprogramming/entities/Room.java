@@ -29,6 +29,9 @@ public class Room {
     private String code;
 
     @Column()
+    private Integer members = 0;
+
+    @Column()
     private String language;
 
 }

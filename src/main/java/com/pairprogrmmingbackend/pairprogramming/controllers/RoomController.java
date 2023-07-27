@@ -16,6 +16,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -41,6 +44,15 @@ public class RoomController {
         return ResponseEntity.ok("OK");
     }
 
+    @GetMapping
+    public ResponseEntity<List<Room>> getUserRooms() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("getting a user's created rooms..");
+        User currentUser = (User) authentication.getPrincipal();
+        List<Room> rooms = roomService.getUserRooms(currentUser);
+        return ResponseEntity.ok(rooms);
+    }
+
     @GetMapping("/{roomName}")
     public ResponseEntity<Room> getRoom(@PathVariable String roomName) {
         System.out.println("[getRoom] " + roomName);
@@ -48,5 +60,16 @@ public class RoomController {
         if(room.isEmpty()) throw  new AppException("Room does not exist", HttpStatus.NOT_FOUND);
         System.out.println("[roomController] " + room.get());
         return ResponseEntity.ok(room.get());
+    }
+
+    @PostMapping("/add-member/{roomName}")
+    public void addMember(@PathVariable String roomName) {
+        System.out.println("adding member");
+        roomService.addMember(roomName);
+    }
+
+    @PostMapping("/remove-member/{roomName}")
+    public void removeMember(@PathVariable String roomName) {
+        roomService.removeMember(roomName);
     }
 }
